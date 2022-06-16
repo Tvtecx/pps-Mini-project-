@@ -2,106 +2,85 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct library {
-	char book_name[20];
-	char author[20];
-	int pages;
-	float price;
-};
 
-int main() {
-	
-	struct library lib[100];
-	char ar_nm[30], bk_nm[30];
+char book_name[20];
+char author[20];
+char c;
+int pages;
+float price;
+FILE *book;
+int
+main ()
+{
+  int input;
 
-    int i, input, count;
-	i = input = count = 0;
 
-	while (input != 5) {
 
-		printf("\n========== DIGITAL LIBRARY CATALOGUE ==========\n");
-		printf("\n1. Add a Book\n2. Display Books\n3. Search by Author\n4. Book Count\n5. Exit Program");
-        printf("\n\n===============================================");
+  do
+    {
 
-		
-		printf("\n\nEnter choice: ");
-		scanf("%d", &input);
+      printf ("\n========== DIGITAL LIBRARY CATALOGUE ==========\n");
+      printf ("\n1. Add a Book\n2. Display Books\n3. Exit Program");
+      printf ("\n\n===============================================");
 
-		switch (input) {
 
-		case 1:
+      printf ("\n\nEnter choice: ");
+      scanf ("%d", &input);
 
-			printf("\n(p.s Don't Enter Spaces)\n\nEnter Books' Name: ");
-			scanf("%s", lib[i].book_name);
+      switch (input)
+	{
 
-			printf("Enter Authors' Name: ");
-			scanf("%s", lib[i].author);
+	case 1:
+	  {
 
-			printf("Enter Page Count: ");
-			scanf("%d", &lib[i].pages);
+	    printf ("\n\n\nEnter Books' Name: ");
+	    scanf ("%s", book_name);
 
-			printf("Enter Books' Price: ");
-			scanf("%f", &lib[i].price);
+	    printf ("Enter Authors' Name: ");
+	    scanf ("%s", author);
 
-            printf("Book Added.\n");
-			
-            count++;
+	    printf ("Enter Page Count: ");
+	    scanf ("%d", &pages);
 
-			break;
+	    printf ("Enter Books' Price: ");
+	    scanf ("%f", &price);
 
-		case 2:
+	    printf ("Book Added.\n");
+	    book = fopen ("book_list.txt", "a");
+	    fprintf (book, "%s\t%s\t%d\t%f", book_name, author, pages, price);
+	    fclose (book);
 
-			printf("\nExisting Book Information:-\n");
 
-			for (i = 0; i < count; i++) {
-				printf("\nBooks' Name: %s", lib[i].book_name);
-				printf("\nAuthors' Name: %s", lib[i].author);
-				printf("\nPage Count: %d", lib[i].pages);
-				printf("\nPrice: %.2f", lib[i].price);
-			}
+	    break;
+	  }
 
-            printf("\n");
+	case 2:
+	  {
 
-			break;
+	    book = fopen ("book_list.txt", "r");
+	    while (c != EOF)
+	      {
+		        c = fgetc(book);
+		        printf ("%c", c);
+	      }
+	    fclose (book);
 
-		case 3:
-			
-            printf("\nEnter Authors' Name: ");
-			scanf("%s", ar_nm);
+	    break;
+	  }
 
-			for (i = 0; i < count; i++) {
-				if (strcmp(ar_nm, lib[i].author) == 0) {
-					printf("\nBooks' Name: %s", lib[i].book_name);
-                    printf("\nAuthors' Name: %s", lib[i].author);
-                    printf("\nPage Count: %d", lib[i].pages);
-                    printf("\nPrice: %.2f", lib[i].price);
-                } else {
-                    printf("Book by %s doesn't Exist in Collection.", ar_nm);
-                }
-			}
+	case 3:
 
-            printf("\n");
+	  break;
 
-			break;
+	default:
 
-		case 4:
-			
-            printf("\nLibrary Book Count: %d\n", count);
-			
-            break;
-		
-        case 5:
-		
-            printf("\nGoodbye!\n\n");
-        	exit(0);
+	  printf ("\nWrong Input, Try Again!");
+	  break;
 
-        default:
-        
-            printf("\nWrong Input, Try Again!");
-		
-        };
-        
 	}
 
-	return 0;
+    }
+  while (input != 3);
+
+  return 0;
 }
